@@ -15,7 +15,7 @@ u = mda.Universe("../../mlx.gro", "../../rep1_skip10.xtc")
 tica = TICA(
     u,
     select="name CA",
-    lag=20,
+    lag=50,
     n_components=3,
     regularization=1e-5,
 ).run(step=1)

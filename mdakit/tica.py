@@ -3,6 +3,7 @@ from collections import deque
 from typing import Optional, Union
 
 from MDAnalysis.analysis.base import AnalysisBase
+from MDAnalysis.analysis.align import _fit_to
 
 
 
@@ -19,6 +20,7 @@ class TICA(AnalysisBase):
         scale: bool = False,
         reversible: bool = True,
         dt: float = None,
+        align: bool=False,
         **kwargs,
     ):
         super().__init__(universe.trajectory, **kwargs)
@@ -33,15 +35,36 @@ class TICA(AnalysisBase):
         self._scale = bool(scale)
         self._reversible = bool(reversible)
         self._dt = dt
+        self.align = bool(align)
 
 
     def _prepare(self):
         self._atoms = self._u.select_atoms(self._select)
-        self._coords = []
+        D = self._atoms.n_atoms * 3
+        self._X = np.empty((self.n_frames, D), dtype=np.float64)
+        self._i = 0
+        if getattr(self, 'align', False):
+            ref = self._atoms
+            self._ref_atom_positions = ref.positions.copy()
+            self._ref_cog = ref.center_of_geometry()
+
 
     def _single_frame(self):
-        pos = self._atoms.positions
-        self._coords.append(pos.copy().ravel())
+        # Optionally align current frame to reference
+        if getattr(self, 'align', False):
+            mobile_cog = self._atoms.center_of_geometry()
+            mobile_atoms, _ = _fit_to(
+                self._atoms.positions - mobile_cog,
+                self._ref_atom_positions - self._ref_cog,
+                self._atoms,
+                mobile_com=mobile_cog,
+                ref_com=self._ref_cog,
+            )
+            pos = mobile_atoms.positions
+        else:
+            pos = self._atoms.positions
+        self._X[self._i, :] = pos.ravel()
+        self._i += 1
 
     def _conclude(self):
         X, X0, Xtau, n_pairs, T, lag = self._build_lagged_blocks()
@@ -69,6 +92,88 @@ class TICA(AnalysisBase):
         dt = self._dt if self._dt is not None else getattr(self._trajectory, "dt", None)
         self.timescales_ = self._compute_timescales(lam, lag, dt)
 
+    def transform(self, data, n_components=None):
+        """Project data into the learned tICA space.
+
+        Parameters
+        - data: ndarray (T, D) or MDAnalysis AtomGroup or Universe
+            If ndarray, it must have the same feature dimension D used in fit.
+            If AtomGroup/Universe, frames are iterated and the same selection
+            used during fit is applied (for Universe) or validated (for AG).
+            If ``self.align`` is True and a reference was set during fit, frames
+            are aligned to that reference before projection.
+        - n_components: int | None
+            Number of components to return; defaults to the model's size.
+
+        Returns
+        - Y: ndarray (T, m)
+            Projection onto the first m components.
+        """
+        if not hasattr(self, "components_") or not hasattr(self, "_mean_"):
+            raise ValueError("TICA must be run() before calling transform")
+
+        C = self.components_
+        if n_components is not None:
+            m = int(n_components)
+            if m < 1:
+                return np.empty((0, 0), dtype=np.float64)
+            C = C[:, :m]
+
+        if isinstance(data, np.ndarray):
+            X = np.asarray(data, dtype=np.float64)
+            if X.ndim != 2:
+                raise ValueError("Input array must be 2D (T, D)")
+            if X.shape[1] != self.components_.shape[0]:
+                raise ValueError("Feature dimension mismatch for projection")
+            return self._project_centered(X, self._mean_, self._std_, C)
+
+        # MDAnalysis path
+        try:
+            from MDAnalysis import Universe
+            from MDAnalysis.core.groups import AtomGroup
+        except Exception:
+            Universe = None
+            AtomGroup = None
+
+        ag = None
+        traj = None
+        if Universe is not None and isinstance(data, Universe):
+            ag = data.select_atoms(self._select)
+            traj = data.trajectory
+        elif AtomGroup is not None and isinstance(data, AtomGroup):
+            ag = data
+            traj = ag.universe.trajectory
+        else:
+            raise TypeError("data must be a numpy array, AtomGroup, or Universe")
+
+        D = self.components_.shape[0]
+        if ag.n_atoms * 3 != D:
+            raise ValueError("AtomGroup size does not match fitted selection")
+        T = len(traj)
+        X = np.empty((T, D), dtype=np.float64)
+        # Iterate frames and optionally align like during fit
+        i = 0
+        if self.align and hasattr(self, "_ref_atom_positions"):
+            ref_pos = self._ref_atom_positions
+            ref_cog = self._ref_cog
+            for ts in traj:
+                mobile_cog = ag.center_of_geometry()
+                mobile_atoms, _ = _fit_to(
+                    ag.positions - mobile_cog,
+                    ref_pos - ref_cog,
+                    ag,
+                    mobile_com=mobile_cog,
+                    ref_com=ref_cog,
+                )
+                X[i, :] = mobile_atoms.positions.ravel()
+                i += 1
+        else:
+            for ts in traj:
+                X[i, :] = ag.positions.ravel()
+                i += 1
+
+        return self._project_centered(X, self._mean_, self._std_, C)
+
 
     def _build_lagged_blocks(self, X=None, lag=None):
         """Build lagged data blocks X0 and Xtau from stacked coordinates.
@@ -93,7 +198,12 @@ class TICA(AnalysisBase):
             Resolved lag value.
         """
         if X is None:
-            X = np.asarray(self._coords, dtype=np.float64)
+            # Prefer preallocated buffer if available
+            if hasattr(self, "_X") and self._i == self.n_frames:
+                X = self._X
+            else:
+                # Fallback to any collected coords list
+                X = np.asarray(getattr(self, "_coords", []), dtype=np.float64)
         else:
             X = np.asarray(X, dtype=np.float64)
 
