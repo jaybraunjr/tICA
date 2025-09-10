@@ -36,132 +36,38 @@ class TICA(AnalysisBase):
 
 
     def _prepare(self):
-        # select atoms
         self._atoms = self._u.select_atoms(self._select)
-        # print(f"DEBUG: selection '{self._select}' → {self._atoms.n_atoms} atoms")
         self._coords = []
 
     def _single_frame(self):
-        # collect positions
         pos = self._atoms.positions
-        # print(f"DEBUG: frame {self._ts.frame}, positions shape {pos.shape}")
         self._coords.append(pos.copy().ravel())
 
     def _conclude(self):
-        # turn coords into numpy array
-        X = np.array(self._coords)
-        lag = self.lag
-        T = X.shape[0]
-        if T <= lag:
-            raise ValueError(f"Not enough frames ({T}) for lag={lag}")
-
-        # build lagged blocks
-        X0 = X[:-lag]
-        Xtau = X[lag:]
-
-        # Centering/scaling to match estimator choice
-        mean = X.mean(0)
-        if self._scale:
-            std = X.std(axis=0, ddof=1)
-            std[std == 0] = 1.0
-            X0c = (X0 - mean) / std
-            Xtauc = (Xtau - mean) / std
-            self._std_ = std
-        else:
-            X0c = X0 - mean
-            Xtauc = Xtau - mean
-            self._std_ = None
-
-        self._mean_ = mean
-
-
-        # covariance estimators
-        n_pairs = T - lag
-        if self._reversible:
-            # Symmetric (reversible) estimators like PyEMMA's LaggedCovariance
-            C0 = 0.5 * ((X0c.T @ X0c) + (Xtauc.T @ Xtauc)) / n_pairs
-            Ctau = 0.5 * ((X0c.T @ Xtauc) + (Xtauc.T @ X0c)) / n_pairs
-        else:
-            C0 = (X0c.T @ X0c) / n_pairs
-            Ctau = (X0c.T @ Xtauc) / n_pairs
-
-        # symmetrize
-        C0 = 0.5 * (C0 + C0.T)
-        Ctau = 0.5 * (Ctau + Ctau.T)
-
-        # regularization
-        eps = max(self._regularization, 0.0)
-        C0_reg = C0 + (eps * np.eye(C0.shape[0]) if eps > 0 else 0)
-
-        # Try Cholesky-based whitening for numerical stability
+        X, X0, Xtau, n_pairs, T, lag = self._build_lagged_blocks()
+        X0c, Xtauc, mean, std = self._center_and_scale(X0, Xtau, scale=self._scale)
+        C0, Ctau = self._estimate_covariance(
+            X0c, Xtauc, n_pairs, reversible=self._reversible, bessel=False
+        )
+        C0_reg = self._regularize(C0, self._regularization)
         try:
-            L = np.linalg.cholesky(C0_reg)
-            # M = L^{-1} Ctau L^{-T}
-            Y = np.linalg.solve(L, Ctau)        # Y = L^{-1} Ctau
-            M = np.linalg.solve(L, Y.T).T       # M = Y L^{-T}
-            M = 0.5 * (M + M.T)
-            lam, Q = np.linalg.eigh(M)
-            # Back-transform eigenvectors: v = L^{-T} y
-            V = np.linalg.solve(L.T, Q)
-        except np.linalg.LinAlgError:
-            # Fallback: eigen-based whitening with relative cutoff
-            s, U = np.linalg.eigh(C0_reg)
-            # filter out small eigenvalues with relative tolerance
-            rel_tol = 1e-4
-            abs_tol = 1e-12
-            thresh = max(abs_tol, rel_tol * float(s.max()))
-            keep = s > thresh
-            s_kept = s[keep]
-            U_kept = U[:, keep]
-            if s_kept.size == 0:
-                raise RuntimeError(
-                    "C0 is singular even after regularization; increase regularization or check data"
-                )
-            S_inv_sqrt = np.diag(1.0 / np.sqrt(s_kept))
-            M = S_inv_sqrt @ U_kept.T @ Ctau @ U_kept @ S_inv_sqrt
-            M = 0.5 * (M + M.T)
-            lam, E = np.linalg.eigh(M)
-            V = U_kept @ S_inv_sqrt @ E
-
-        # sort
-        idx = np.argsort(lam)[::-1]
-        lam = lam[idx]
-        V = V[:, idx]
-
-        if self._n_components is not None:
-            lam = lam[: self._n_components]
-            V = V[:, : self._n_components]
-
-        # save everything for debugging
+            self.C0_eigvals = np.linalg.eigvalsh(C0_reg)
+        except Exception:
+            self.C0_eigvals = None
+        M, lam, V = self._whiten_solve(C0_reg, Ctau, chol_fallback_tol=(1e-4, 1e-12))e
+        lam, V = self._sort_and_truncate(lam, V, self._n_components)
         self.X = X
         self.C0 = C0
         self.Ctau = Ctau
-        # Report eigenvalues of regularized C0 for diagnostics
-        try:
-            self.C0_eigvals = np.linalg.eigvalsh(C0 + (eps * np.eye(C0.shape[0]) if eps > 0 else 0))
-        except Exception:
-            self.C0_eigvals = None
         self.M = M
         self.M_eigvals = lam
-
-        # final results
         self.eigenvalues_ = lam
         self.components_ = V
-        # IMPORTANT: use same centering/scaling for projection
-        if self._std_ is not None:
-            self.proj_ = ((X - mean) / self._std_) @ V
-        else:
-            self.proj_ = (X - mean) @ V
-
-        # timescales
+        self._mean_ = mean
+        self._std_ = std
+        self.proj_ = self._project_centered(X, mean, std, V)
         dt = self._dt if self._dt is not None else getattr(self._trajectory, "dt", None)
-        if dt is not None:
-            mask = (lam > 0) & (lam < 1)
-            timescales = np.full(lam.shape, np.inf)
-            timescales[mask] = -(lag * dt) / np.log(lam[mask])
-            self.timescales_ = timescales
-        else:
-            self.timescales_ = None
+        self.timescales_ = self._compute_timescales(lam, lag, dt)
 
 
     def _build_lagged_blocks(self, X=None, lag=None):
@@ -228,12 +134,9 @@ class TICA(AnalysisBase):
             The std used when `scale=True`, else None.
 
         """
-        # ensure float64 for stability
         X0 = np.asarray(X0, dtype=np.float64)
         Xtau = np.asarray(Xtau, dtype=np.float64)
         use_scale = self._scale if scale is None else bool(scale)
-
-        # stack if we need to compute stats
         need_stack = (mean is None) or (use_scale and std is None)
         if need_stack:
             X = np.vstack([X0, Xtau])
@@ -324,10 +227,10 @@ class TICA(AnalysisBase):
         - Ensure exact symmetry via 0.5*(A + A.T) before/after loading.
         - Do not modify input array in place.
         """
-  
-        C0_reg = C0 + (eps * np.eye(C0.shape[0]) if eps > 0 else 0)
-
-        return C0_reg
+        C0_sym = 0.5 * (C0 + C0.T)
+        C0_reg = C0_sym + (eps * np.eye(C0.shape[0]) if eps > 0 else 0)
+        # Ensure exact symmetry on return
+        return 0.5 * (C0_reg + C0_reg.T)
         
 
     def _whiten_solve(self, C0_reg, Ctau, chol_fallback_tol):
@@ -355,9 +258,52 @@ class TICA(AnalysisBase):
         - Prefer Cholesky for speed/stability; fall back to eig‑whitening with
           small‑eigenvalue filtering using provided tolerances.
         """
-        pass
+        C0_reg = 0.5 * (C0_reg + C0_reg.T)
+        Ctau = 0.5 * (Ctau + Ctau.T)
 
-    def _sort_and_truncate():
+        try:
+            L = np.linalg.cholesky(C0_reg)
+            Y = np.linalg.solve(L, Ctau)        # Y = L^{-1} Ctau
+            M = np.linalg.solve(L, Y.T).T       # M = Y L^{-T}
+            M = 0.5 * (M + M.T)
+            lam, Q = np.linalg.eigh(M)
+            V = np.linalg.solve(L.T, Q)
+        except np.linalg.LinAlgError:
+            s, U = np.linalg.eigh(C0_reg)
+
+            if chol_fallback_tol is None:
+                rel_tol, abs_tol = 1e-4, 1e-12
+            else:
+                rel_tol, abs_tol = chol_fallback_tol
+            thresh = max(abs_tol, rel_tol * float(s.max()))
+            keep = s > thresh
+            s_kept = s[keep]
+            U_kept = U[:, keep]
+            if s_kept.size == 0:
+                raise RuntimeError(
+                    "C0 is singular even after regularization; increase regularization or check data"
+                )
+            S_inv_sqrt = np.diag(1.0 / np.sqrt(s_kept))
+            M = S_inv_sqrt @ U_kept.T @ Ctau @ U_kept @ S_inv_sqrt
+            M = 0.5 * (M + M.T)
+            lam, E = np.linalg.eigh(M)
+            V = U_kept @ S_inv_sqrt @ E
+
+        idx = np.argsort(lam)[::-1]
+        lam = lam[idx]
+        V = V[:, idx]
+
+        # Default to full set
+        eigvals, eigvecs = lam, V
+        if self._n_components is not None:
+            eigvals = lam[: self._n_components]
+            eigvecs = V[:, : self._n_components]
+
+        return M, eigvals, eigvecs
+        
+
+
+    def _sort_and_truncate(self, eigvals, eigvecs, n_components):
         """Sort eigenpairs and optionally truncate to target dimensionality.
 
         Implement with signature (eigvals, eigvecs, n_components)->(vals, vecs)
@@ -375,9 +321,24 @@ class TICA(AnalysisBase):
         - vecs: ndarray (D, m)
             Sorted (descending by eigenvalue) and possibly truncated.
         """
-        pass
+        eigvals = np.asanyarray(eigvals)
+        eigvecs = np.asanyarray(eigvecs)
 
-    def _compute_timescales():
+        idx = np.argsort(eigvals)[::-1]
+        vals = eigvals[idx]
+        vecs = eigvecs[:, idx]
+
+        if n_components is not None:
+            n = int(n_components)
+            if n < 1:
+                return vals[:0], vecs[:, :0]
+            vals = vals[:n]
+            vecs = vecs[:, :n]
+
+        return vals, vecs
+ 
+
+    def _compute_timescales(self, eigvals, lag, dt):
         """Convert eigenvalues to implied timescales.
 
         Implement with signature (eigvals, lag, dt)->timescales
@@ -394,9 +355,16 @@ class TICA(AnalysisBase):
         - timescales: ndarray (k,) | None
             tau_i = -(lag*dt)/log(lambda_i) for 0 < lambda_i < 1; else inf.
         """
-        pass
+        if dt is None:
+            return None
+        vals = np.asarray(eigvals, dtype=np.float64)
+        tau = np.full(vals.shape, np.inf, dtype=np.float64)
+        mask = (vals > 0.0) & (vals < 1.0)
+        if np.any(mask):
+            tau[mask] = -(float(lag) * float(dt)) / np.log(vals[mask])
+        return tau
 
-    def _project_centered():
+    def _project_centered(self, X, mean, std, components):
         """Project centered (and optionally scaled) data onto components.
 
         Implement with signature (X, mean, std, components)->Y
@@ -415,4 +383,12 @@ class TICA(AnalysisBase):
         - Y: ndarray (T, k)
             Projected trajectory in tICA space using the same preprocessing.
         """
-        pass
+        X = np.asarray(X, dtype=np.float64)
+        mean = np.asarray(mean, dtype=np.float64)
+        C = np.asarray(components, dtype=np.float64)
+        if std is not None:
+            std = np.asarray(std, dtype=np.float64)
+            Z = (X - mean) / std
+        else:
+            Z = X - mean
+        return Z @ C
