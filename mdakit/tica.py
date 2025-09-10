@@ -54,7 +54,7 @@ class TICA(AnalysisBase):
             self.C0_eigvals = np.linalg.eigvalsh(C0_reg)
         except Exception:
             self.C0_eigvals = None
-        M, lam, V = self._whiten_solve(C0_reg, Ctau, chol_fallback_tol=(1e-4, 1e-12))e
+        M, lam, V = self._whiten_solve(C0_reg, Ctau, chol_fallback_tol=(1e-4, 1e-12))
         lam, V = self._sort_and_truncate(lam, V, self._n_components)
         self.X = X
         self.C0 = C0
