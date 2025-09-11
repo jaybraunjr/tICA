@@ -15,7 +15,7 @@ Math Overview (tICA)
   X \in \mathbb{R}^{T\times D},\quad X_0 = X_{0:T-\tau},\quad X_\tau = X_{\tau:T}
   $$
 
-  After centering (and optional z‑scoring) with the same mean/std for both blocks we obtain \(X_0^c\) and \(X_\tau^c\).
+  After centering (and optional z‑scoring) with the same mean/std for both blocks we obtain $X_0^c$ and $X_\tau^c$.
 
 - Covariances (biased normalization by default):
 
@@ -44,7 +44,7 @@ Math Overview (tICA)
   C_0 = L L^\top,\qquad M = L^{-1} C_\tau L^{-\top},\qquad M y = \lambda y,\qquad v = L^{-\top} y
   $$
 
-  Eigen‑whitening fallback
+  Eigen‑whitening fallback (with $S=\mathrm{diag}(s)$)
   $$
   C_0 = U\, \mathrm{diag}(s)\, U^\top,\quad M = S^{-1/2} U^\top C_\tau U S^{-1/2},\quad v = U S^{-1/2} y
   $$
@@ -55,7 +55,7 @@ Math Overview (tICA)
   Y = (X - \mu)\, C\quad (\text{or } Y = ((X-\mu) / \sigma)\, C \text{ if scaling})
   $$
 
-- Implied timescales (if frame time \(\Delta t\) is known):
+- Implied timescales (if frame time $\Delta t$ is known):
 
   $$
   t_i = -\frac{\tau\, \Delta t}{\ln \lambda_i},\qquad 0 < \lambda_i < 1
