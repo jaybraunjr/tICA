@@ -9,57 +9,62 @@ Contents
 
 
 Math Overview (tICA)
-- Data and lagged blocks:
 
-  $$
-  X \in \mathbb{R}^{T\times D},\quad X_0 = X_{0:T-\tau},\quad X_\tau = X_{\tau:T}
-  $$
+Data and lagged blocks
 
-  After centering (and optional z‑scoring) with the same mean/std for both blocks we obtain $X_0^c$ and $X_\tau^c$.
+$$
+X \in \mathbb{R}^{T\times D},\quad X_0 = X_{0:T-\tau},\quad X_\tau = X_{\tau:T}
+$$
 
-- Covariances (biased normalization by default):
+After centering (and optional z‑scoring) with the same mean/std for both blocks we obtain $X_0^c$ and $X_\tau^c$.
 
-  Non‑reversible
-  $$
-  C_0 = \frac{X_0^{c\,\top} X_0^c}{T-\tau},\qquad
-  C_\tau = \frac{X_0^{c\,\top} X_\tau^c}{T-\tau}
-  $$
+Covariances (biased normalization by default)
 
-  Reversible (symmetrized)
-  $$
-  C_0 = \frac{1}{2(T-\tau)}\big(X_0^{c\,\top} X_0^c + X_\tau^{c\,\top} X_\tau^c\big),\qquad
-  C_\tau = \frac{1}{2(T-\tau)}\big(X_0^{c\,\top} X_\tau^c + X_\tau^{c\,\top} X_0^c\big)
-  $$
+Non‑reversible
 
-- Generalized eigenproblem and regularization:
+$$
+C_0 = \frac{X_0^{c\,\top} X_0^c}{T-\tau}\quad\text{and}\quad
+C_\tau = \frac{X_0^{c\,\top} X_\tau^c}{T-\tau}
+$$
 
-  $$
-  C_\tau\, v = \lambda\, C_0\, v,\qquad C_0 \leftarrow C_0 + \varepsilon I
-  $$
+Reversible (symmetrized)
 
-- Whitening and eigensolve:
+$$
+C_0 = \frac{1}{2(T-\tau)}\Big(X_0^{c\,\top} X_0^c + X_\tau^{c\,\top} X_\tau^c\Big),\quad
+C_\tau = \frac{1}{2(T-\tau)}\Big(X_0^{c\,\top} X_\tau^c + X_\tau^{c\,\top} X_0^c\Big)
+$$
 
-  Cholesky (preferred)
-  $$
-  C_0 = L L^\top,\qquad M = L^{-1} C_\tau L^{-\top},\qquad M y = \lambda y,\qquad v = L^{-\top} y
-  $$
+Generalized eigenproblem and regularization
 
-  Eigen‑whitening fallback (with $S=\mathrm{diag}(s)$)
-  $$
-  C_0 = U\, \mathrm{diag}(s)\, U^\top,\quad M = S^{-1/2} U^\top C_\tau U S^{-1/2},\quad v = U S^{-1/2} y
-  $$
+$$
+C_\tau v = \lambda\, C_0 v,\qquad C_0 \leftarrow C_0 + \varepsilon I
+$$
 
-- Projection of full data:
+Whitening and eigensolve
 
-  $$
-  Y = (X - \mu)\, C\quad (\text{or } Y = ((X-\mu) / \sigma)\, C \text{ if scaling})
-  $$
+Cholesky (preferred)
 
-- Implied timescales (if frame time $\Delta t$ is known):
+$$
+C_0 = L L^\top,\quad M = L^{-1} C_\tau L^{-\top},\quad M y = \lambda y,\quad v = L^{-\top} y
+$$
 
-  $$
-  t_i = -\frac{\tau\, \Delta t}{\ln \lambda_i},\qquad 0 < \lambda_i < 1
-  $$
+Eigen‑whitening fallback (with $S=\mathrm{diag}(s)$)
+
+$$
+C_0 = U\, \mathrm{diag}(s)\, U^\top,\quad M = S^{-1/2} U^\top C_\tau U S^{-1/2},\quad v = U S^{-1/2} y
+$$
+
+Projection of full data
+
+$$
+Y = (X - \mu)\, C\quad \big(\text{or } Y = ((X-\mu) / \sigma)\, C \text{ if scaling}\big)
+$$
+
+Implied timescales (if frame time $\Delta t$ is known)
+
+$$
+t_i = -\frac{\tau\, \Delta t}{\ln \lambda_i},\qquad 0 < \lambda_i < 1
+$$
 
 
 Installation/Requirements
