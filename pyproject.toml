@@ -1,0 +1,46 @@
+[
+  build-system
+]
+requires = [
+  "setuptools>=64",
+  "wheel",
+]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "tICA"
+version = "0.1.0"
+description = "MDAnalysis-based tICA and plotting helpers"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+authors = [
+  { name = "R. Jay Braun Jr", email = "jaybraunjr@gmail.com" }
+]
+keywords = ["MDAnalysis", "tICA", "PCA", "molecular-dynamics", "timescales"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Topic :: Scientific/Engineering :: "Computational Chemistry",
+]
+dependencies = [
+  "numpy>=1.20",
+  "MDAnalysis>=2.0",
+  "matplotlib>=3.4",
+]
+
+[project.urls]
+Homepage = "https://github.com/jaybraunjr/tICA"
+Issues = "https://github.com/jaybraunjr/tICA/issues"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = [
+  "tICA",
+  "tICA.*",
+]

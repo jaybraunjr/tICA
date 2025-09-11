@@ -50,7 +50,6 @@ class TICA(AnalysisBase):
 
 
     def _single_frame(self):
-        # Optionally align current frame to reference
         if getattr(self, 'align', False):
             mobile_cog = self._atoms.center_of_geometry()
             mobile_atoms, _ = _fit_to(
@@ -127,7 +126,6 @@ class TICA(AnalysisBase):
                 raise ValueError("Feature dimension mismatch for projection")
             return self._project_centered(X, self._mean_, self._std_, C)
 
-        # MDAnalysis path
         try:
             from MDAnalysis import Universe
             from MDAnalysis.core.groups import AtomGroup
@@ -151,7 +149,7 @@ class TICA(AnalysisBase):
             raise ValueError("AtomGroup size does not match fitted selection")
         T = len(traj)
         X = np.empty((T, D), dtype=np.float64)
-        # Iterate frames and optionally align like during fit
+
         i = 0
         if self.align and hasattr(self, "_ref_atom_positions"):
             ref_pos = self._ref_atom_positions
@@ -198,7 +196,6 @@ class TICA(AnalysisBase):
             Resolved lag value.
         """
         if X is None:
-            # Prefer preallocated buffer if available
             if hasattr(self, "_X") and self._i == self.n_frames:
                 X = self._X
             else:
