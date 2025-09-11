@@ -1,4 +1,4 @@
-TICA and PCA Utilities (MDAnalysis-based)
+TICA (MDAnalysis-based)
 =========================================
 
 This repo contains a compact, fast implementation of Time‑lagged Independent Component Analysis (tICA) on top of MDAnalysis.
@@ -9,22 +9,57 @@ Contents
 
 
 Math Overview (tICA)
-- Data: stacked Cartesian coordinates X ∈ R^{T×D}, with frames t = 0..T−1 and feature dimension D (e.g., 3×n_atoms after selection).
-- Lagged blocks: for lag τ ≥ 1, define X₀ = X[0:T−τ], X_τ = X[τ:T]. After centering (and optional z‑scoring) with the same mean/std for both blocks we obtain X₀ᶜ and X_τᶜ.
+- Data and lagged blocks:
+
+  $$
+  X \in \mathbb{R}^{T\times D},\quad X_0 = X_{0:T-\tau},\quad X_\tau = X_{\tau:T}
+  $$
+
+  After centering (and optional z‑scoring) with the same mean/std for both blocks we obtain \(X_0^c\) and \(X_\tau^c\).
+
 - Covariances (biased normalization by default):
-  - Non‑reversible:
-    - C₀ = (X₀ᶜᵀ X₀ᶜ) / (T−τ)
-    - C_τ = (X₀ᶜᵀ X_τᶜ) / (T−τ)
-  - Reversible (symmetrized):
-    - C₀ = 0.5[(X₀ᶜᵀ X₀ᶜ) + (X_τᶜᵀ X_τᶜ)] / (T−τ)
-    - C_τ = 0.5[(X₀ᶜᵀ X_τᶜ) + (X_τᶜᵀ X₀ᶜ)] / (T−τ)
-- Generalized eigenproblem: C_τ v = λ C₀ v. We regularize C₀ → C₀+εI and solve via whitening.
+
+  Non‑reversible
+  $$
+  C_0 = \frac{X_0^{c\,\top} X_0^c}{T-\tau},\qquad
+  C_\tau = \frac{X_0^{c\,\top} X_\tau^c}{T-\tau}
+  $$
+
+  Reversible (symmetrized)
+  $$
+  C_0 = \frac{1}{2(T-\tau)}\big(X_0^{c\,\top} X_0^c + X_\tau^{c\,\top} X_\tau^c\big),\qquad
+  C_\tau = \frac{1}{2(T-\tau)}\big(X_0^{c\,\top} X_\tau^c + X_\tau^{c\,\top} X_0^c\big)
+  $$
+
+- Generalized eigenproblem and regularization:
+
+  $$
+  C_\tau\, v = \lambda\, C_0\, v,\qquad C_0 \leftarrow C_0 + \varepsilon I
+  $$
+
 - Whitening and eigensolve:
-  - Cholesky if possible: C₀ = LLᵀ, M = L^{-1} C_τ L^{-T}, solve M y = λ y, back‑transform v = L^{-T} y.
-  - Fallback: eig‑whitening C₀ = U diag(s) Uᵀ, drop small s, M = s^{-1/2} Uᵀ C_τ U s^{-1/2}, back‑transform v = U s^{-1/2} y.
-- Sort λ descending and (optionally) truncate to the top n components.
-- Projection of full data: Y = (X−μ) C (or z‑scored if scaling), where columns of C are the learned components.
-- Implied timescales (if frame time Δt is known): τ_i = −(lag·Δt) / ln(λ_i) for 0 < λ_i < 1; otherwise ∞.
+
+  Cholesky (preferred)
+  $$
+  C_0 = L L^\top,\qquad M = L^{-1} C_\tau L^{-\top},\qquad M y = \lambda y,\qquad v = L^{-\top} y
+  $$
+
+  Eigen‑whitening fallback
+  $$
+  C_0 = U\, \mathrm{diag}(s)\, U^\top,\quad M = S^{-1/2} U^\top C_\tau U S^{-1/2},\quad v = U S^{-1/2} y
+  $$
+
+- Projection of full data:
+
+  $$
+  Y = (X - \mu)\, C\quad (\text{or } Y = ((X-\mu) / \sigma)\, C \text{ if scaling})
+  $$
+
+- Implied timescales (if frame time \(\Delta t\) is known):
+
+  $$
+  t_i = -\frac{\tau\, \Delta t}{\ln \lambda_i},\qquad 0 < \lambda_i < 1
+  $$
 
 
 Installation/Requirements
@@ -79,26 +114,9 @@ Plotting
     if tica.timescales_ is not None:
         timescales_bar(tica.timescales_, title="tICA Timescales")[0].savefig("tica_timescales.png")
 
-PCA (MDAnalysis) on the same trajectory
-
-    from MDAnalysis.analysis.pca import PCA
-    p = PCA(u, select="name CA", n_components=3).run()
-    pc = p.results.p_components     # (3N, 3)
-    proj = p.transform(u.select_atoms("name CA"), n_components=3)
-
-Benchmarks
-- Run the timing script on the same CA‑only trajectory used above:
-
-    python3 test_perf.py
-
-You’ll see end‑to‑end timings for:
-- TICA (this implementation)
-- PCA (MDAnalysis)
-- tICA (PyEMMA) — requires mdtraj and pyemma; the script includes a small NumPy compatibility shim for older PyEMMA releases.
 
 Tips & Best Practices
 - Alignment: for Cartesian coordinates, rigid‑body alignment often improves interpretability (removes translation/rotation). Either use `align=True` in TICA or pre‑align with MDAnalysis (AlignTraj or transformations pipeline). For internal coordinates (distances/dihedrals), alignment is unnecessary.
 - Scaling: enable `scale=True` to z‑score features when needed. This can help when units or scales differ among coordinates.
 - Regularization: small diagonal loading (e.g., `1e-5`) can stabilize whitening for near‑singular C₀.
 - Reversible estimator: set `reversible=True` to symmetrize estimators, often preferable for equilibrium MD.
-
