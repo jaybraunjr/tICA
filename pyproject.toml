@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 
 
 [project]
-name = "mdakit"
+name = "tica"
 version = "0.1.0"
 description = "MDAnalysis-based tICA and plotting helpers"
 readme = "README.md"
@@ -39,6 +39,6 @@ include-package-data = true
 [tool.setuptools.packages.find]
 where = ["."]
 include = [
-  "mdakit",
-  "mdakit.*",
+  "tica",
+  "tica.*",
 ]

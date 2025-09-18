@@ -2,7 +2,7 @@ import time
 import numpy as np
 
 import MDAnalysis as mda
-from mdakit.tica import TICA
+from tica.tica import TICA
 from MDAnalysis.analysis.pca import PCA as MDAPCA
 
 

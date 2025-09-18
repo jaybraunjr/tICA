@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from pathlib import Path
 
-from mdakit.featurizer import (
+from tica.featurizer import (
     Featurizer,
     contact_count_feat,
     dihedral_feat,
@@ -17,7 +17,7 @@ from mdakit.featurizer import (
     rmsd_feat,
     torsion_avg_feat,
 )
-from mdakit.tica import TICA
+from tica.tica import TICA
 
 
 u = mda.Universe("../../mlx.gro", "../../rep1_skip10.xtc")

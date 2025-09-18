@@ -17,12 +17,12 @@ on demand.
 Key modules
 -----------
 
-mdakit.tica
+tica.tica
     Implementation of the MDAnalysis-based tICA engine (TICA class).
 
-mdakit.featurizer
+tica.featurizer
     Helpers for building CV pipelines: RMSD, distances, contact counts,
     torsion averages, secondary-structure fractions, SASA, etc.
 
-mdakit.plotting
+tica.plotting
     Convenience plots for tICA projections, eigen spectra, and derived statistics.

@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Quick start" href="quickstart.html" />
 
     <!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
-        <title>mdakit 0.1.0</title>
+        <title>tICA 0.1.0</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
@@ -166,7 +166,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="#"><div class="brand">mdakit 0.1.0</div></a>
+      <a href="#"><div class="brand">tICA 0.1.0</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -190,7 +190,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="#">
   
   
-  <span class="sidebar-brand-text">mdakit 0.1.0</span>
+  <span class="sidebar-brand-text">tICA 0.1.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -201,6 +201,7 @@
   <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user-guide.html">User guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API reference</a></li>
 </ul>
 
@@ -242,9 +243,9 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="mdakit-documentation">
-<h1>mdakit documentation<a class="headerlink" href="#mdakit-documentation" title="Permalink to this heading">¶</a></h1>
-<p>Welcome to the developer-friendly docs for <code class="docutils literal notranslate"><span class="pre">mdakit</span></code>. This site is designed to
+          <section id="tica-documentation">
+<h1>tICA documentation<a class="headerlink" href="#tica-documentation" title="Permalink to this heading">¶</a></h1>
+<p>Welcome to the developer-friendly docs for <code class="docutils literal notranslate"><span class="pre">tICA</span></code>. This site is designed to
 match the repository layout and give you a quick path to the core APIs.</p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
@@ -253,18 +254,28 @@ match the repository layout and give you a quick path to the core APIs.</p>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html#key-modules">Key modules</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="user-guide.html">User guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user-guide.html#setup">Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide.html#running-tica-on-a-trajectory">Running tICA on a trajectory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide.html#projecting-new-data">Projecting new data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide.html#engineered-features">Engineered features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide.html#per-feature-tica">Per-feature tICA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide.html#visualisation">Visualisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide.html#next-steps">Next steps</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api.html#mdakit.tica.TICA"><code class="docutils literal notranslate"><span class="pre">TICA</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#mdakit.featurizer.Featurizer"><code class="docutils literal notranslate"><span class="pre">Featurizer</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#mdakit.featurizer.distance_feat"><code class="docutils literal notranslate"><span class="pre">distance_feat()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#mdakit.featurizer.rmsd_feat"><code class="docutils literal notranslate"><span class="pre">rmsd_feat()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#mdakit.plotting.component_hist_from_proj"><code class="docutils literal notranslate"><span class="pre">component_hist_from_proj()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#mdakit.plotting.corner_from_proj"><code class="docutils literal notranslate"><span class="pre">corner_from_proj()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#mdakit.plotting.eigen_spectrum"><code class="docutils literal notranslate"><span class="pre">eigen_spectrum()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#mdakit.plotting.heat_hist2d"><code class="docutils literal notranslate"><span class="pre">heat_hist2d()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#mdakit.plotting.heat_hist2d_from_proj"><code class="docutils literal notranslate"><span class="pre">heat_hist2d_from_proj()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#mdakit.plotting.scatter2d_from_proj"><code class="docutils literal notranslate"><span class="pre">scatter2d_from_proj()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#mdakit.plotting.timescales_bar"><code class="docutils literal notranslate"><span class="pre">timescales_bar()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#tica.tica.TICA"><code class="docutils literal notranslate"><span class="pre">TICA</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#tica.featurizer.Featurizer"><code class="docutils literal notranslate"><span class="pre">Featurizer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#tica.featurizer.distance_feat"><code class="docutils literal notranslate"><span class="pre">distance_feat()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#tica.featurizer.rmsd_feat"><code class="docutils literal notranslate"><span class="pre">rmsd_feat()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#tica.plotting.component_hist_from_proj"><code class="docutils literal notranslate"><span class="pre">component_hist_from_proj()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#tica.plotting.corner_from_proj"><code class="docutils literal notranslate"><span class="pre">corner_from_proj()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#tica.plotting.eigen_spectrum"><code class="docutils literal notranslate"><span class="pre">eigen_spectrum()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#tica.plotting.heat_hist2d"><code class="docutils literal notranslate"><span class="pre">heat_hist2d()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#tica.plotting.heat_hist2d_from_proj"><code class="docutils literal notranslate"><span class="pre">heat_hist2d_from_proj()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#tica.plotting.scatter2d_from_proj"><code class="docutils literal notranslate"><span class="pre">scatter2d_from_proj()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#tica.plotting.timescales_bar"><code class="docutils literal notranslate"><span class="pre">timescales_bar()</span></code></a></li>
 </ul>
 </li>
 </ul>

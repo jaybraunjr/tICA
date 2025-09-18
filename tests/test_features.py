@@ -10,7 +10,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from mdakit.featurizer import (
+from tica.featurizer import (
     Featurizer,
     contact_count_feat,
     dihedral_feat,

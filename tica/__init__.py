@@ -14,7 +14,7 @@ except Exception:  # pragma: no cover
         PackageNotFoundError = Exception
 
 try:
-    __version__ = version("mdakit")  # type: ignore[arg-type]
+    __version__ = version("tica")  # type: ignore[arg-type]
 except Exception:
     __version__ = "0.1.0"
 

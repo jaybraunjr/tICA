@@ -1,7 +1,7 @@
-mdakit documentation
+tICA documentation
 ====================
 
-Welcome to the developer-friendly docs for ``mdakit``. This site is designed to
+Welcome to the developer-friendly docs for ``tICA``. This site is designed to
 match the repository layout and give you a quick path to the core APIs.
 
 .. toctree::
@@ -9,6 +9,7 @@ match the repository layout and give you a quick path to the core APIs.
    :caption: Contents
 
    quickstart
+   user-guide
    api
 
 Indices and tables

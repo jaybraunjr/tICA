@@ -4,8 +4,8 @@ TICA (MDAnalysis-based)
 This repo contains a compact, fast implementation of Time‑lagged Independent Component Analysis (tICA) on top of MDAnalysis.
 
 Contents
-- mdakit/tica.py — tICA implementation as an MDAnalysis AnalysisBase
-- mdakit/plotting.py — plotting helpers (heatmap + marginals, spectra, etc.)
+- tica/tica.py — tICA implementation as an MDAnalysis AnalysisBase
+- tica/plotting.py — plotting helpers (heatmap + marginals, spectra, etc.)
 
 
 Math Overview (tICA)
@@ -28,7 +28,7 @@ Quick Start (tICA)
 1) Load your trajectory with MDAnalysis and run tICA:
 
     import MDAnalysis as mda
-    from mdakit.tica import TICA
+    from tica.tica import TICA
 
     u = mda.Universe("input.gro", "traj.xtc")
     tica = TICA(
@@ -60,7 +60,7 @@ Quick Start (tICA)
 Plotting
 - Heatmap + marginals of IC1 vs IC2:
 
-    from mdakit.plotting import heat_hist2d_from_proj
+    from tica.plotting import heat_hist2d_from_proj
     fig, *_ = heat_hist2d_from_proj(tica.proj_, i=0, j=1, bins=150, title="tICA: IC1 vs IC2")
     fig.savefig("tica_ic12_heat.png", dpi=150)
 
@@ -68,7 +68,7 @@ Plotting
 
 - Scree plot and timescales:
 
-    from mdakit.plotting import eigen_spectrum, timescales_bar
+    from tica.plotting import eigen_spectrum, timescales_bar
     eigen_spectrum(tica.eigenvalues_, title="tICA Eigenvalues")[0].savefig("tica_eigs.png")
     if tica.timescales_ is not None:
         timescales_bar(tica.timescales_, title="tICA Timescales")[0].savefig("tica_timescales.png")
@@ -77,7 +77,7 @@ Plotting
 Feature Engineering
 - Build collective-variable matrices with the featurizer:
 
-    from mdakit.featurizer import Featurizer, rmsd_feat, distance_feat
+    from tica.featurizer import Featurizer, rmsd_feat, distance_feat
 
     feats = (
         Featurizer(u)

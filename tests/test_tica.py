@@ -10,7 +10,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from mdakit.tica import TICA
+from tica.tica import TICA
 
 
 def make_universe(n_frames=6, n_atoms=3, seed=0):

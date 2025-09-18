@@ -1,17 +1,17 @@
 API reference
 =============
 
-.. automodule:: mdakit.tica
+.. automodule:: tica.tica
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: mdakit.featurizer
+.. automodule:: tica.featurizer
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: mdakit.plotting
+.. automodule:: tica.plotting
    :members:
    :undoc-members:
    :show-inheritance:

@@ -8,9 +8,9 @@ sys.path.insert(0, os.path.abspath(".."))
 
 # -- Project information -----------------------------------------------------
 
-project = "mdakit"
+project = "tICA"
 try:
-    release = importlib.metadata.version("mdakit")
+    release = importlib.metadata.version("tica")
 except importlib.metadata.PackageNotFoundError:
     release = "0.1.0"
 
