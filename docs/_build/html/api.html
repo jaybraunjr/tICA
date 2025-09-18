@@ -1,35 +1,35 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="./">
+<html class="no-js" lang="en" data-content_root="">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="Quick start" href="quickstart.html" />
 
-    <!-- Generated with Sphinx 7.3.7 and Furo 2025.07.19 -->
+    <!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
         <title>API reference - mdakit 0.1.0</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=acfd86a5" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=25af2a20" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
     
     
 
 
 <style>
   body {
-    --color-code-background: #f2f2f2;
-  --color-code-foreground: #1e1e1e;
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
   
   }
   @media not print {
     body[data-theme="dark"] {
-      --color-code-background: #2b2b2b;
-  --color-code-foreground: #f8f8f2;
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
   
     }
     @media (prefers-color-scheme: dark) {
       body:not([data-theme="light"]) {
-        --color-code-background: #2b2b2b;
-  --color-code-foreground: #f8f8f2;
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
   
       }
     }
@@ -189,6 +189,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
+  
   <span class="sidebar-brand-text">mdakit 0.1.0</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
@@ -242,29 +243,29 @@
         </div>
         <article role="main" id="furo-main-content">
           <section id="module-mdakit.tica">
-<span id="api-reference"></span><h1>API reference<a class="headerlink" href="#module-mdakit.tica" title="Link to this heading">¶</a></h1>
+<span id="api-reference"></span><h1>API reference<a class="headerlink" href="#module-mdakit.tica" title="Permalink to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="mdakit.tica.TICA">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mdakit.tica.</span></span><span class="sig-name descname"><span class="pre">TICA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">universe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">select</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'all'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regularization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reversible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.tica.TICA" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mdakit.tica.</span></span><span class="sig-name descname"><span class="pre">TICA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">universe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">select</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'all'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regularization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reversible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.tica.TICA" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AnalysisBase</span></code></p>
 <p>Time-lagged Independent Component Analysis (tICA).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>select</strong> (<em>str</em>)</p></li>
-<li><p><strong>lag</strong> (<em>int</em>)</p></li>
-<li><p><strong>n_components</strong> (<em>int</em>)</p></li>
-<li><p><strong>regularization</strong> (<em>float</em>)</p></li>
-<li><p><strong>scale</strong> (<em>bool</em>)</p></li>
-<li><p><strong>reversible</strong> (<em>bool</em>)</p></li>
-<li><p><strong>dt</strong> (<em>float</em>)</p></li>
-<li><p><strong>align</strong> (<em>bool</em>)</p></li>
+<li><p><strong>select</strong> (<em>str</em>) – </p></li>
+<li><p><strong>lag</strong> (<em>int</em>) – </p></li>
+<li><p><strong>n_components</strong> (<em>int</em>) – </p></li>
+<li><p><strong>regularization</strong> (<em>float</em>) – </p></li>
+<li><p><strong>scale</strong> (<em>bool</em>) – </p></li>
+<li><p><strong>reversible</strong> (<em>bool</em>) – </p></li>
+<li><p><strong>dt</strong> (<em>float</em>) – </p></li>
+<li><p><strong>align</strong> (<em>bool</em>) – </p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="mdakit.tica.TICA.fit_from_array">
-<span class="sig-name descname"><span class="pre">fit_from_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reversible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regularization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bessel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.tica.TICA.fit_from_array" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">fit_from_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reversible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regularization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bessel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.tica.TICA.fit_from_array" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit tICA on an arbitrary feature matrix X (T × D) and store results.</p>
 <p>Parameters
 - X: ndarray (T, D)
@@ -281,7 +282,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="mdakit.tica.TICA.transform">
-<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.tica.TICA.transform" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.tica.TICA.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Project data into the learned tICA space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -307,10 +308,10 @@ dimensionality.</p></li>
 
 </dd></dl>
 
-<p id="module-mdakit.featurizer">Feature helpers for building tICA-ready input matrices.</p>
+<span class="target" id="module-mdakit.featurizer"></span><p>Feature helpers for building tICA-ready input matrices.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="mdakit.featurizer.Featurizer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mdakit.featurizer.</span></span><span class="sig-name descname"><span class="pre">Featurizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">universe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">features=&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.featurizer.Featurizer" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mdakit.featurizer.</span></span><span class="sig-name descname"><span class="pre">Featurizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">universe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">features=&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.featurizer.Featurizer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Collects per-frame feature callables and builds stacked arrays.</p>
 <dl class="field-list simple">
@@ -323,24 +324,24 @@ dimensionality.</p></li>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="mdakit.featurizer.Featurizer.add">
-<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.featurizer.Featurizer.add" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.featurizer.Featurizer.add" title="Permalink to this definition">¶</a></dt>
 <dd><p>Register a feature callable and return self for chaining.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<em>str</em>)</p></li>
-<li><p><strong>func</strong> (<em>Callable</em><em>[</em><em>[</em><em>Universe</em><em>]</em><em>, </em><em>ndarray</em><em>]</em>)</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – </p></li>
+<li><p><strong>func</strong> (<em>Callable</em><em>[</em><em>[</em><em>Universe</em><em>]</em><em>, </em><em>ndarray</em><em>]</em>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="#mdakit.featurizer.Featurizer" title="mdakit.featurizer.Featurizer"><em>Featurizer</em></a></p>
+<dd class="field-even"><p><a class="reference internal" href="#mdakit.featurizer.Featurizer" title="mdakit.featurizer.Featurizer">Featurizer</a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="mdakit.featurizer.Featurizer.array">
-<span class="sig-name descname"><span class="pre">array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtype=&lt;class</span> <span class="pre">'numpy.float64'&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.featurizer.Featurizer.array" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtype=&lt;class</span> <span class="pre">'numpy.float64'&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.featurizer.Featurizer.array" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluate all features and return shape (frames, n_features).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -351,12 +352,12 @@ dimensionality.</p></li>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="mdakit.featurizer.Featurizer.features">
-<span class="sig-name descname"><span class="pre">features</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Universe</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#mdakit.featurizer.Featurizer.features" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">features</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Universe</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#mdakit.featurizer.Featurizer.features" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="mdakit.featurizer.Featurizer.names">
-<span class="sig-name descname"><span class="pre">names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.featurizer.Featurizer.names" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.featurizer.Featurizer.names" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the registered feature names in order.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -367,21 +368,21 @@ dimensionality.</p></li>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="mdakit.featurizer.Featurizer.universe">
-<span class="sig-name descname"><span class="pre">universe</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Universe</span></em><a class="headerlink" href="#mdakit.featurizer.Featurizer.universe" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">universe</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Universe</span></em><a class="headerlink" href="#mdakit.featurizer.Featurizer.universe" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mdakit.featurizer.distance_feat">
-<span class="sig-prename descclassname"><span class="pre">mdakit.featurizer.</span></span><span class="sig-name descname"><span class="pre">distance_feat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">select1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">select2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_weighted</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.featurizer.distance_feat" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">mdakit.featurizer.</span></span><span class="sig-name descname"><span class="pre">distance_feat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">select1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">select2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_weighted</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.featurizer.distance_feat" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a feature callable computing COM/COG distance between selections.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>select1</strong> (<em>str</em>)</p></li>
-<li><p><strong>select2</strong> (<em>str</em>)</p></li>
-<li><p><strong>mass_weighted</strong> (<em>bool</em>)</p></li>
+<li><p><strong>select1</strong> (<em>str</em>) – </p></li>
+<li><p><strong>select2</strong> (<em>str</em>) – </p></li>
+<li><p><strong>mass_weighted</strong> (<em>bool</em>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -392,15 +393,15 @@ dimensionality.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mdakit.featurizer.rmsd_feat">
-<span class="sig-prename descclassname"><span class="pre">mdakit.featurizer.</span></span><span class="sig-name descname"><span class="pre">rmsd_feat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">select</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'name</span> <span class="pre">CA'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_frame</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">superposition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.featurizer.rmsd_feat" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">mdakit.featurizer.</span></span><span class="sig-name descname"><span class="pre">rmsd_feat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">select</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'name</span> <span class="pre">CA'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_frame</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">superposition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.featurizer.rmsd_feat" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a feature callable computing RMSD (Å) relative to ref_frame.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>select</strong> (<em>str</em>)</p></li>
-<li><p><strong>ref_frame</strong> (<em>int</em>)</p></li>
-<li><p><strong>center</strong> (<em>bool</em>)</p></li>
-<li><p><strong>superposition</strong> (<em>bool</em>)</p></li>
+<li><p><strong>select</strong> (<em>str</em>) – </p></li>
+<li><p><strong>ref_frame</strong> (<em>int</em>) – </p></li>
+<li><p><strong>center</strong> (<em>bool</em>) – </p></li>
+<li><p><strong>superposition</strong> (<em>bool</em>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -409,15 +410,15 @@ dimensionality.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="py function" id="module-mdakit.plotting">
+<span class="target" id="module-mdakit.plotting"></span><dl class="py function">
 <dt class="sig sig-object py" id="mdakit.plotting.component_hist_from_proj">
-<span class="sig-prename descclassname"><span class="pre">mdakit.plotting.</span></span><span class="sig-name descname"><span class="pre">component_hist_from_proj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">density</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(6,</span> <span class="pre">4)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.plotting.component_hist_from_proj" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">mdakit.plotting.</span></span><span class="sig-name descname"><span class="pre">component_hist_from_proj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">density</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(6,</span> <span class="pre">4)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.plotting.component_hist_from_proj" title="Permalink to this definition">¶</a></dt>
 <dd><p>1D histogram of a single component from projection matrix.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mdakit.plotting.corner_from_proj">
-<span class="sig-prename descclassname"><span class="pre">mdakit.plotting.</span></span><span class="sig-name descname"><span class="pre">corner_from_proj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,</span> <span class="pre">1,</span> <span class="pre">2)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.plotting.corner_from_proj" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">mdakit.plotting.</span></span><span class="sig-name descname"><span class="pre">corner_from_proj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,</span> <span class="pre">1,</span> <span class="pre">2)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.plotting.corner_from_proj" title="Permalink to this definition">¶</a></dt>
 <dd><p>Corner-like grid of pairwise scatters with marginals on diagonal.</p>
 <p>Parameters
 - proj: ndarray (T, k)
@@ -429,7 +430,7 @@ dimensionality.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mdakit.plotting.eigen_spectrum">
-<span class="sig-prename descclassname"><span class="pre">mdakit.plotting.</span></span><span class="sig-name descname"><span class="pre">eigen_spectrum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eigvals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Eigenvalues'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(6,</span> <span class="pre">4)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.plotting.eigen_spectrum" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">mdakit.plotting.</span></span><span class="sig-name descname"><span class="pre">eigen_spectrum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eigvals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Eigenvalues'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(6,</span> <span class="pre">4)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.plotting.eigen_spectrum" title="Permalink to this definition">¶</a></dt>
 <dd><p>Line plot of eigenvalues (scree plot).</p>
 <p>Parameters
 - eigvals: 1D array
@@ -440,7 +441,7 @@ dimensionality.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mdakit.plotting.heat_hist2d">
-<span class="sig-prename descclassname"><span class="pre">mdakit.plotting.</span></span><span class="sig-name descname"><span class="pre">heat_hist2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins=100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">range=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap=&lt;matplotlib.colors.LinearSegmentedColormap</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize=(6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">6)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_frac=0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right_frac=0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wspace=0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hspace=0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_label='IC</span> <span class="pre">1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_label='IC</span> <span class="pre">2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">density=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hist_kwargs=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imshow_kwargs=None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.plotting.heat_hist2d" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">mdakit.plotting.</span></span><span class="sig-name descname"><span class="pre">heat_hist2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins=100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">range=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap=&lt;matplotlib.colors.LinearSegmentedColormap</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize=(6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">6)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_frac=0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right_frac=0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wspace=0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hspace=0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_label='IC</span> <span class="pre">1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_label='IC</span> <span class="pre">2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">density=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hist_kwargs=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imshow_kwargs=None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.plotting.heat_hist2d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot a 2D heatmap with marginal histograms for <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -475,7 +476,7 @@ from the data.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mdakit.plotting.heat_hist2d_from_proj">
-<span class="sig-prename descclassname"><span class="pre">mdakit.plotting.</span></span><span class="sig-name descname"><span class="pre">heat_hist2d_from_proj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.plotting.heat_hist2d_from_proj" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">mdakit.plotting.</span></span><span class="sig-name descname"><span class="pre">heat_hist2d_from_proj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.plotting.heat_hist2d_from_proj" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convenience wrapper to plot from a projection matrix (T x k).</p>
 <p>Parameters
 - proj: ndarray (T, k)
@@ -485,13 +486,13 @@ from the data.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mdakit.plotting.scatter2d_from_proj">
-<span class="sig-prename descclassname"><span class="pre">mdakit.plotting.</span></span><span class="sig-name descname"><span class="pre">scatter2d_from_proj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(6,</span> <span class="pre">5)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.plotting.scatter2d_from_proj" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">mdakit.plotting.</span></span><span class="sig-name descname"><span class="pre">scatter2d_from_proj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(6,</span> <span class="pre">5)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.plotting.scatter2d_from_proj" title="Permalink to this definition">¶</a></dt>
 <dd><p>Simple 2D scatter of two components from a projection matrix (T x k).</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mdakit.plotting.timescales_bar">
-<span class="sig-prename descclassname"><span class="pre">mdakit.plotting.</span></span><span class="sig-name descname"><span class="pre">timescales_bar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timescales</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Implied</span> <span class="pre">Timescales'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(6,</span> <span class="pre">4)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.plotting.timescales_bar" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">mdakit.plotting.</span></span><span class="sig-name descname"><span class="pre">timescales_bar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timescales</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Implied</span> <span class="pre">Timescales'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(6,</span> <span class="pre">4)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdakit.plotting.timescales_bar" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bar plot of implied timescales.</p>
 <p>Parameters
 - timescales: 1D array (inf values are clipped at max finite)
@@ -581,9 +582,9 @@ from the data.</p></li>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=01f34227"></script>
-    <script src="_static/doctools.js?v=9a2dae69"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/scripts/furo.js?v=46bd48cc"></script>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=2389946f"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/scripts/furo.js?v=5fa4622c"></script>
     </body>
 </html>
