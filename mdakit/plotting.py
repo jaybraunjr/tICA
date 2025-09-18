@@ -18,36 +18,38 @@ def heat_hist2d(x, y, bins=100, range=None, cmap=FREE_ENERGY_CMAP, figsize=(6, 6
                 top_frac=0.2, right_frac=0.2, wspace=0.05, hspace=0.05,
                 x_label="IC 1", y_label="IC 2", title=None, density=True,
                 hist_kwargs=None, imshow_kwargs=None):
-    """Plot a 2D heatmap with marginal histograms for x and y.
+    """Plot a 2D heatmap with marginal histograms for ``x`` and ``y``.
 
     Parameters
-    - x, y: array-like
-      1D arrays of equal length.
-    - bins: int or [int, int]
-      Number of bins for 2D hist and marginals.
-    - range: ((xmin, xmax), (ymin, ymax)) | None
-      Ranges for the histograms; if None, computed from data.
-    - cmap: str or Colormap
-      Colormap for heatmap.
-    - figsize: (w, h)
-      Figure size in inches.
-    - top_frac, right_frac: float
-      Fraction of figure height/width for the top/right histograms.
-    - wspace, hspace: float
-      Spacing between axes.
-    - x_label, y_label: str
-      Axis labels.
-    - title: str | None
-      Figure title.
-    - density: bool
-      If True, normalize histograms.
-    - hist_kwargs: dict | None
-      Extra kwargs for the marginal histograms.
-    - imshow_kwargs: dict | None
-      Extra kwargs for the heatmap.
+    ----------
+    x, y : array-like
+        One-dimensional arrays of equal length.
+    bins : int or sequence of int, optional
+        Number of bins for the 2D histogram and marginals.
+    range : tuple, optional
+        ``((xmin, xmax), (ymin, ymax))`` ranges; if omitted, they are inferred
+        from the data.
+    cmap : str or :class:`matplotlib.colors.Colormap`, optional
+        Colormap used for the heatmap.
+    figsize : tuple, optional
+        Figure size in inches.
+    top_frac, right_frac : float, optional
+        Fraction of the figure reserved for the top/right histograms.
+    wspace, hspace : float, optional
+        Spacing between axes.
+    x_label, y_label : str, optional
+        Axis labels for the main heatmap.
+    title : str, optional
+        Title for the main axes.
+    density : bool, optional
+        If ``True``, normalize histograms to represent densities.
+    hist_kwargs, imshow_kwargs : dict, optional
+        Additional keyword arguments passed to ``hist`` and ``imshow``.
 
     Returns
-    - fig, ax_main, ax_top, ax_right
+    -------
+    tuple
+        ``(fig, ax_main, ax_top, ax_right)`` for further customization.
     """
     x = np.asarray(x).ravel()
     y = np.asarray(y).ravel()

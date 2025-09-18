@@ -92,12 +92,6 @@ Feature Engineering
   `sasa_feat`, and `plane_distance_feat` for common CVs.
 
 
-Documentation
--------------
-- Build the Sphinx docs locally with `sphinx-build -b html docs docs/_build/html`.
-- For Read the Docs, point a project at this repository, set the docs path to `docs/`, and use `docs/requirements.txt` as the build requirements file.
-
-
 Tips & Best Practices
 - Alignment: for Cartesian coordinates, rigid‑body alignment often improves interpretability (removes translation/rotation). Either use `align=True` in TICA or pre-align with MDAnalysis (AlignTraj or transformations pipeline). For internal coordinates (distances/dihedrals), alignment is unnecessary.
 - Scaling: enable `scale=True` to z-score features when needed. This can help when units or scales differ among coordinates.

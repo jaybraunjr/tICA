@@ -93,18 +93,22 @@ class TICA(AnalysisBase):
         """Project data into the learned tICA space.
 
         Parameters
-        - data: ndarray (T, D) or MDAnalysis AtomGroup or Universe
-            If ndarray, it must have the same feature dimension D used in fit.
-            If AtomGroup/Universe, frames are iterated and the same selection
-            used during fit is applied (for Universe) or validated (for AG).
-            If ``self.align`` is True and a reference was set during fit, frames
-            are aligned to that reference before projection.
-        - n_components: int | None
-            Number of components to return; defaults to the model's size.
+        ----------
+        data : ndarray ``(T, D)``, :class:`MDAnalysis.core.groups.AtomGroup`, or
+            :class:`MDAnalysis.Universe`
+            If an array, its second dimension must match the feature dimension
+            used during fitting. AtomGroup/Universe inputs are iterated frame by
+            frame using the selection applied during fit. When ``self.align`` is
+            ``True`` and a reference was stored during fit, each frame is aligned
+            before projection.
+        n_components : int, optional
+            Number of components to return; defaults to the model's configured
+            dimensionality.
 
         Returns
-        - Y: ndarray (T, m)
-            Projection onto the first m components.
+        -------
+        numpy.ndarray
+            Projection onto the first ``m`` components with shape ``(T, m)``.
         """
         if not hasattr(self, "components_") or not hasattr(self, "_mean_"):
             raise ValueError("TICA must be run() before calling transform")
