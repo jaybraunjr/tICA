@@ -1,6 +1,4 @@
 import numpy as np
-from collections import deque
-from typing import Optional, Union
 
 from MDAnalysis.analysis.base import AnalysisBase
 from MDAnalysis.analysis.align import _fit_to
@@ -20,7 +18,7 @@ class TICA(AnalysisBase):
         scale: bool = False,
         reversible: bool = True,
         dt: float = None,
-        align: bool=False,
+        align: bool = False,
         **kwargs,
     ):
         super().__init__(universe.trajectory, **kwargs)
@@ -135,12 +133,15 @@ class TICA(AnalysisBase):
 
         ag = None
         traj = None
+        start_frame = None
         if Universe is not None and isinstance(data, Universe):
             ag = data.select_atoms(self._select)
             traj = data.trajectory
+            start_frame = traj.frame
         elif AtomGroup is not None and isinstance(data, AtomGroup):
             ag = data
             traj = ag.universe.trajectory
+            start_frame = traj.frame
         else:
             raise TypeError("data must be a numpy array, AtomGroup, or Universe")
 
@@ -151,26 +152,103 @@ class TICA(AnalysisBase):
         X = np.empty((T, D), dtype=np.float64)
 
         i = 0
-        if self.align and hasattr(self, "_ref_atom_positions"):
-            ref_pos = self._ref_atom_positions
-            ref_cog = self._ref_cog
-            for ts in traj:
-                mobile_cog = ag.center_of_geometry()
-                mobile_atoms, _ = _fit_to(
-                    ag.positions - mobile_cog,
-                    ref_pos - ref_cog,
-                    ag,
-                    mobile_com=mobile_cog,
-                    ref_com=ref_cog,
-                )
-                X[i, :] = mobile_atoms.positions.ravel()
-                i += 1
-        else:
-            for ts in traj:
-                X[i, :] = ag.positions.ravel()
-                i += 1
+        try:
+            if start_frame is not None and T:
+                try:
+                    traj[0]
+                except Exception:
+                    pass
+            if self.align and hasattr(self, "_ref_atom_positions"):
+                ref_pos = self._ref_atom_positions
+                ref_cog = self._ref_cog
+                for _ in traj:
+                    mobile_cog = ag.center_of_geometry()
+                    mobile_atoms, _ = _fit_to(
+                        ag.positions - mobile_cog,
+                        ref_pos - ref_cog,
+                        ag,
+                        mobile_com=mobile_cog,
+                        ref_com=ref_cog,
+                    )
+                    X[i, :] = mobile_atoms.positions.ravel()
+                    i += 1
+            else:
+                for _ in traj:
+                    X[i, :] = ag.positions.ravel()
+                    i += 1
+        finally:
+            if start_frame is not None and traj is not None:
+                traj[start_frame]
 
         return self._project_centered(X, self._mean_, self._std_, C)
+
+    def fit_from_array(
+        self,
+        X,
+        lag=None,
+        scale=None,
+        reversible=None,
+        regularization=None,
+        n_components=None,
+        dt=None,
+        bessel=False,
+    ):
+        """Fit tICA on an arbitrary feature matrix X (T × D) and store results.
+
+        Parameters
+        - X: ndarray (T, D)
+        - lag: int | None (defaults to self.lag)
+        - scale: bool | None (defaults to self._scale)
+        - reversible: bool | None (defaults to self._reversible)
+        - regularization: float | None (defaults to self._regularization)
+        - n_components: int | None (defaults to self._n_components)
+        - dt: float | None (defaults to self._dt or trajectory dt if available)
+        - bessel: bool, use n_pairs-1 in covariance normalization
+
+        Returns
+        - self
+        """
+        X = np.asarray(X, dtype=np.float64)
+        _, X0, Xtau, n_pairs, T, lag_val = self._build_lagged_blocks(X=X, lag=lag)
+        X0c, Xtauc, mean, std = self._center_and_scale(X0, Xtau, scale=scale)
+
+        rev = self._reversible if reversible is None else bool(reversible)
+        C0, Ctau = self._estimate_covariance(X0c, Xtauc, n_pairs, reversible=rev, bessel=bessel)
+
+        reg = self._regularization if regularization is None else float(regularization)
+        C0_reg = self._regularize(C0, reg)
+
+        M, lam, V = self._whiten_solve(C0_reg, Ctau, chol_fallback_tol=(1e-4, 1e-12))
+
+        ncomp = self._n_components if n_components is None else n_components
+        lam, V = self._sort_and_truncate(lam, V, ncomp)
+
+        # Save
+        self.X = X
+        self.C0 = C0
+        self.Ctau = Ctau
+        self.M = M
+        self.M_eigvals = lam
+        self.eigenvalues_ = lam
+        self.components_ = V
+        self._mean_ = mean
+        self._std_ = std
+        # Diagnostics
+        try:
+            self.C0_eigvals = np.linalg.eigvalsh(C0_reg)
+        except Exception:
+            self.C0_eigvals = None
+
+        # Projection of full X
+        self.proj_ = self._project_centered(X, mean, std, V)
+
+        # Timescales
+        if dt is None:
+            dt_val = self._dt if self._dt is not None else getattr(self._trajectory, "dt", None)
+        else:
+            dt_val = dt
+        self.timescales_ = self._compute_timescales(lam, lag_val, dt_val)
+        return self
 
 
     def _build_lagged_blocks(self, X=None, lag=None):
@@ -195,11 +273,13 @@ class TICA(AnalysisBase):
         lag : int
             Resolved lag value.
         """
+
+        # step1, create matrices with a lag
+
         if X is None:
             if hasattr(self, "_X") and self._i == self.n_frames:
                 X = self._X
             else:
-                # Fallback to any collected coords list
                 X = np.asarray(getattr(self, "_coords", []), dtype=np.float64)
         else:
             X = np.asarray(X, dtype=np.float64)
@@ -334,9 +414,16 @@ class TICA(AnalysisBase):
         - Ensure exact symmetry via 0.5*(A + A.T) before/after loading.
         - Do not modify input array in place.
         """
+        eps = float(eps)
+        if eps < 0.0:
+            raise ValueError("regularization strength must be >= 0")
+
         C0_sym = 0.5 * (C0 + C0.T)
-        C0_reg = C0_sym + (eps * np.eye(C0.shape[0]) if eps > 0 else 0)
-        # Ensure exact symmetry on return
+        if eps > 0.0:
+            eye = np.eye(C0.shape[0], dtype=C0_sym.dtype)
+            C0_reg = C0_sym + eps * eye
+        else:
+            C0_reg = C0_sym.copy()
         return 0.5 * (C0_reg + C0_reg.T)
         
 

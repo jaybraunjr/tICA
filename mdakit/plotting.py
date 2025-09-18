@@ -2,7 +2,19 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def heat_hist2d(x, y, bins=100, range=None, cmap="viridis", figsize=(6, 6),
+def _spectral_cmap():
+    try:
+        from matplotlib import colormaps
+
+        return colormaps["nipy_spectral"]
+    except Exception:
+        return plt.get_cmap("nipy_spectral")
+
+
+FREE_ENERGY_CMAP = _spectral_cmap()
+
+
+def heat_hist2d(x, y, bins=100, range=None, cmap=FREE_ENERGY_CMAP, figsize=(6, 6),
                 top_frac=0.2, right_frac=0.2, wspace=0.05, hspace=0.05,
                 x_label="IC 1", y_label="IC 2", title=None, density=True,
                 hist_kwargs=None, imshow_kwargs=None):
