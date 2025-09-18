@@ -10,61 +10,13 @@ Contents
 
 Math Overview (tICA)
 
-Data and lagged blocks
+tICA takes a trajectory matrix $X \in \mathbb{R}^{T \times D}$, forms two lagged blocks $X_0 = X_{0:T-\tau}$ and $X_\tau = X_{\tau:T}$, centers (and optionally scales) them, and estimates the instantaneous and time-lagged covariances
 
 $$
-X \in \mathbb{R}^{T\times D},\quad X_0 = X_{0:T-\tau},\quad X_\tau = X_{\tau:T}
+C_0 = \langle X_0^c X_0^{c\top} \rangle, \qquad C_\tau = \langle X_0^c X_\tau^{c\top} \rangle.
 $$
 
-After centering (and optional z‑scoring) with the same mean/std for both blocks we obtain $X_0^c$ and $X_\tau^c$.
-
-Covariances (biased normalization by default)
-
-Non‑reversible
-
-$$
-C_0 = \frac{X_0^{c\,\top} X_0^c}{T-\tau}\quad\text{and}\quad
-C_\tau = \frac{X_0^{c\,\top} X_\tau^c}{T-\tau}
-$$
-
-Reversible (symmetrized)
-
-$$
-C_0 = \frac{1}{2(T-\tau)}\Big(X_0^{c\,\top} X_0^c + X_\tau^{c\,\top} X_\tau^c\Big),\quad
-C_\tau = \frac{1}{2(T-\tau)}\Big(X_0^{c\,\top} X_\tau^c + X_\tau^{c\,\top} X_0^c\Big)
-$$
-
-Generalized eigenproblem and regularization
-
-$$
-C_\tau v = \lambda\, C_0 v,\qquad C_0 \leftarrow C_0 + \varepsilon I
-$$
-
-Whitening and eigensolve
-
-Cholesky (preferred)
-
-$$
-C_0 = L L^\top,\quad M = L^{-1} C_\tau L^{-\top},\quad M y = \lambda y,\quad v = L^{-\top} y
-$$
-
-Eigen‑whitening fallback (with $S=\mathrm{diag}(s)$)
-
-$$
-C_0 = U\, \mathrm{diag}(s)\, U^\top,\quad M = S^{-1/2} U^\top C_\tau U S^{-1/2},\quad v = U S^{-1/2} y
-$$
-
-Projection of full data
-
-$$
-Y = (X - \mu)\, C\quad \big(\text{or } Y = ((X-\mu) / \sigma)\, C \text{ if scaling}\big)
-$$
-
-Implied timescales (if frame time $\Delta t$ is known)
-
-$$
-t_i = -\frac{\tau\, \Delta t}{\ln \lambda_i},\qquad 0 < \lambda_i < 1
-$$
+We regularize $C_0$ (add $\varepsilon I$ if requested) and solve the generalized eigenproblem $C_\tau v = \lambda C_0 v$. The eigenvectors form the tICA components, the projections are $Y = (X - \mu) C$, and optional timescales follow from $\tau_i = -\tau \Delta t / \ln \lambda_i$ for $0 < \lambda_i < 1$.
 
 
 Installation/Requirements
@@ -138,6 +90,12 @@ Feature Engineering
 - Additional helpers: `gyration_feat`, `contact_count_feat`, `hbond_count_feat`,
   `dihedral_feat`, `torsion_avg_feat`, `secondary_structure_frac_feat`,
   `sasa_feat`, and `plane_distance_feat` for common CVs.
+
+
+Documentation
+-------------
+- Build the Sphinx docs locally with `sphinx-build -b html docs docs/_build/html`.
+- For Read the Docs, point a project at this repository, set the docs path to `docs/`, and use `docs/requirements.txt` as the build requirements file.
 
 
 Tips & Best Practices

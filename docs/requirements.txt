@@ -1,0 +1,5 @@
+sphinx>=6.2
+furo>=2024.1
+mdanalysis
+numpy
+matplotlib
