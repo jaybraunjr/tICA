@@ -101,3 +101,4 @@ Tips & Best Practices
 Examples & Tests
 - Usage demos and benchmarking scripts now live in `examples/` (they expect the sample trajectory files referenced above).
 - Unit tests run on synthetic data; execute `pytest` from the repository root to validate core math and IO helpers.
+- Rendered docs (after `python3 -m sphinx -b html docs docs/_build/html`) are available via [`docs/_build/html/index.html`](docs/_build/html/index.html).
